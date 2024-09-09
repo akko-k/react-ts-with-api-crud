@@ -1,13 +1,57 @@
-version: '3'
+version: "3.9"
 services:
-  app:
+  # React フロントエンドサービス
+  frontend:
+    container_name: react_frontend
     build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: nodetest_app
-    volumes:
-      - /usr/src/node_modules
-      - .:/usr/src/app
-    command: yarn dev
+      context: ./frontend
+    tty: true
     ports:
-      - "3000:3000"
+      - "80:3000"
+    volumes:
+      - ./frontend:/usr/src/frontend
+      - /etc/localtime:/etc/localtime:ro # タイムゾーンを日本時刻に設定
+    environment:
+      TZ: Asia/Tokyo # タイムゾーンを日本時刻に設定
+    security_opt:
+      - seccomp:unconfined
+    command: sh -c 'yarn install && yarn start'
+  
+  # Node.js バックエンドサービス
+  backend:
+    container_name: node_backend
+    build:
+      context: ./backend
+    tty: true
+    depends_on:
+      - db
+    volumes:
+      - ./backend:/usr/src/backend
+      - /etc/localtime:/etc/localtime:ro # タイムゾーンを日本時刻に設定
+    environment:
+      TZ: Asia/Tokyo # タイムゾーンを日本時刻に設定
+    ports:
+      - "8080:3000"
+    security_opt:
+      - seccomp:unconfined
+    command: sh -c 'yarn install && yarn dev'
+
+  # MySQL データベースサービス
+  db:
+    container_name: mysql_db
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: my_database
+      MYSQL_USER: user
+      MYSQL_PASSWORD: pass
+      MYSQL_ROOT_PASSWORD: pass
+      TZ: Asia/Tokyo # タイムゾーンを日本時刻に設定
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./mysql/mysql.cnf:/etc/mysql/conf.d/mysql.cnf
+    ports:
+      - "3306:3306"
+
+volumes:
+  mysql_data:
