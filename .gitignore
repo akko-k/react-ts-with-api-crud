@@ -1,0 +1,22 @@
+# Node modules
+node_modules/
+
+# Production build files
+dist/
+
+# Log files
+*.log
+
+# Yarn
+.yarn/
+.yarnrc
+
+# Docker
+docker-compose.override.yml
+.docker/
+
+# Environment variables
+.env
+
+# TypeScript cache
+*.tsbuildinfo
