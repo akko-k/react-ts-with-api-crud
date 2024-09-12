@@ -4,11 +4,9 @@
  * Module dependencies.
  */
 
-var app = require('./app');
-var debug = require('debug')(
-  'src:server'
-);
-var http = require('http');
+import app from './app';
+import debug from 'debug';
+import http from 'http';
 
 /**
  * Get port from environment and store in Express.
@@ -98,6 +96,6 @@ function onListening(): void {
   var bind =
     typeof addr === 'string'
       ? 'pipe ' + addr
-      : 'port ' + addr.port;
+      : 'port ' + addr?.port;
   debug('Listening on ' + bind);
 }
