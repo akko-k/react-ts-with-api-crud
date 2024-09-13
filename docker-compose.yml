@@ -30,8 +30,9 @@ services:
       - /etc/localtime:/etc/localtime:ro # タイムゾーンを日本時刻に設定
     environment:
       TZ: Asia/Tokyo # タイムゾーンを日本時刻に設定
+      PORT: 8080
     ports:
-      - "8080:3000"
+      - "8080:8080"
     security_opt:
       - seccomp:unconfined
     command: sh -c 'yarn install && yarn dev'

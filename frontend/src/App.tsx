@@ -1,23 +1,46 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {
+  useEffect,
+  useState,
+} from 'react';
 import './App.css';
 
+interface TodoType {
+  id: number;
+  title: string;
+  content: string;
+}
+
 function App() {
+  const [todoList, setTodoList] =
+    useState<Array<TodoType>>([]);
+
+  useEffect(() => {
+    // APIからデータを取得する
+    fetch('http://localhost:8080/')
+      .then((response) =>
+        response.json()
+      )
+      .then((data) => setTodoList(data))
+      .catch((error) =>
+        console.error(
+          'Error fetching data:',
+          error
+        )
+      );
+  }, []);
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <h1>TODOリスト</h1>
+        <ul>
+          {todoList.map((todo) => (
+            <li key={todo.id}>
+              <h2>{todo.title}</h2>
+              <p>{todo.content}</p>
+            </li>
+          ))}
+        </ul>
       </header>
     </div>
   );
