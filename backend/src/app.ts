@@ -2,6 +2,7 @@ import express, {
   Request,
   Response,
 } from 'express';
+import cors from 'cors';
 
 interface TodoType {
   id: number;
@@ -25,6 +26,8 @@ const INIT_TODO_LIST: Array<TodoType> =
     },
   ];
 const app = express();
+app.use(cors());
+
 app.get(
   '/',
   (req: Request, res: Response) => {
