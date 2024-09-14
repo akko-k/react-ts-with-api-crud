@@ -13,7 +13,7 @@ import http from 'http';
  */
 
 var port = normalizePort(
-  process.env.PORT || '8080'
+  process.env.PORT || '8000'
 );
 app.set('port', port);
 
