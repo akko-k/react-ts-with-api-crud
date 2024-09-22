@@ -3,35 +3,32 @@ import express, {
   Response,
 } from 'express';
 import cors from 'cors';
+import { PrismaClient } from '@prisma/client';
 
-interface TodoType {
-  id: number;
-  title: string;
-  content: string;
-}
-
-const INIT_TODO_LIST: Array<TodoType> =
-  [
-    {
-      id: 1,
-      title: 'ご飯を作る',
-      content:
-        '冷蔵庫にある食材で簡単なおかずを作る',
-    },
-    {
-      id: 2,
-      title: '洗濯する',
-      content:
-        '洗濯乾燥機に洗濯物を入れてスイッチを押す',
-    },
-  ];
+const prisma = new PrismaClient();
 const app = express();
 app.use(cors());
 
 app.get(
   '/',
-  (req: Request, res: Response) => {
-    res.send(INIT_TODO_LIST);
+  async (
+    req: Request,
+    res: Response
+  ) => {
+    try {
+      const todos =
+        await prisma.todo.findMany();
+      res.json(todos);
+    } catch (error) {
+      console.error(
+        'Error fetching todos:',
+        error
+      );
+      res.status(500).json({
+        message:
+          'Internal server error',
+      });
+    }
   }
 );
 
