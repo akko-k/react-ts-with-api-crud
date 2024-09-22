@@ -16,17 +16,23 @@ function App() {
 
   useEffect(() => {
     // APIからデータを取得する
-    fetch('http://localhost:8080/')
-      .then((response) =>
-        response.json()
-      )
-      .then((data) => setTodoList(data))
-      .catch((error) =>
+    const fetchTodos = async () => {
+      try {
+        const response = await fetch(
+          'http://localhost:8080/'
+        );
+        const data =
+          await response.json();
+        setTodoList(data);
+      } catch (error) {
         console.error(
           'Error fetching data:',
           error
-        )
-      );
+        );
+      }
+    };
+
+    fetchTodos();
   }, []);
 
   return (
