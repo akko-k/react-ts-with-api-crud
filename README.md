@@ -95,13 +95,13 @@ docker compose down -v
 docker ps
 ```
 
-各イメージに対応する コンテナ ID を確認
+#### 2. 各イメージに対応する コンテナ ID を確認
 
 - バックエンド: react-ts-with-api-crud-backend
 - フロントエンド: react-ts-with-api-crud-frontend
 - DB: mysql:8.0
 
-以下のコマンドで各コンテナのログを確認
+#### 3. 以下のコマンドで各コンテナのログを確認
 
 ```
 docker logs -f [コンテナID]
