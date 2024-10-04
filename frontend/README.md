@@ -1,46 +1,108 @@
-# Getting Started with Create React App
+# react-ts-with-api-crud
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Todoリスト
 
-## Available Scripts
+## 目次
 
-In the project directory, you can run:
+1. 環境構築
+2. アプリケーションの仕様
 
-### `npm start`
+## 1. 環境構築
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+※dockerを使用しているのでPCに入っていない場合はインストールをお願いします。
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+https://matsuand.github.io/docs.docker.jp.onthefly/desktop/mac/install/
 
-### `npm test`
+### 1. docker イメージを作成
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```
+sudo docker compose build
+```
 
-### `npm run build`
+### 2. docker コンテナを起動
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```
+docker compose up -d
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 3. マイグレーション、シーディングを実行
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
+chmod +x init.sh
+./init.sh
+```
 
-### `npm run eject`
+### 4. ブラウザに表示
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```
+url: http://localhost:3000/
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+注: Todo のデータが表示されない場合は、少し待ってからリロードしてください。  
+（バックエンドのアプリケーションの立ち上げに少し時間がかかるため）
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## 2. アプリケーションの仕様
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### 仕様
 
-## Learn More
+- Todoリスト
+  - Todo一覧表示
+  - Todo検索処理
+  - Todo新規登録処理
+  - Todo詳細表示
+  - Todo編集処理
+  - Todo削除処理
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### 構成技術
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+#### フロントエンド
+
+- typescript: 4.9.5
+- react: 18.3.1
+- react-dom: 18.3.1
+- @fortawesome/react-fontawesome: 0.2.2
+- @fortawesome/free-solid-svg-icons: 6.6.0
+
+#### バックエンド
+
+- typescript: 5.6.2
+- prisma: 5.19.1
+
+#### その他
+
+- docker
+- MySQL: 8.0
+
+## 補足
+
+### DB のデータを初期化したい場合
+
+prisma は migration のロールバック機能がないため、データベースを初期化するにはコンテナのボリュームを削除する必要があります。 コンテナが起動している状態で、以下のコマンドを実行してボリュームを削除してください。
+
+```
+docker compose down -v
+```
+
+### コンテナのログを確認したい場合
+
+フロントエンド、バックエンド、DB コンテナのログを確認する方法
+
+#### 1. コンテナ ID を確認
+
+コンテナを起動している状態で、以下のコマンドでコンテナ ID(CONTAINER ID)を確認する。
+
+```
+docker ps
+```
+
+各イメージに対応する コンテナ ID を確認
+
+- バックエンド: react-ts-with-api-crud-backend
+- フロントエンド: react-ts-with-api-crud-frontend
+- DB: mysql:8.0
+
+以下のコマンドで各コンテナのログを確認
+
+```
+docker logs -f [コンテナID]
+```
