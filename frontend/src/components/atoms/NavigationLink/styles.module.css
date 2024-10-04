@@ -1,0 +1,24 @@
+.navItem {
+  text-align: center;
+  list-style-type: none;
+  border-bottom: none;
+  width: 30%;
+}
+
+.navLink {
+  display: block;
+  padding: 10px 20px;
+  background-color: #518c84;
+  color: #fff;
+  text-decoration: none;
+  font-size: 20px;
+  border-radius: 5px;
+  font-weight: bold;
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.navLink:hover {
+  background-color: #3f746d;
+}

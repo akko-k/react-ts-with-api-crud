@@ -1,0 +1,17 @@
+.container {
+  width: 50%;
+  margin: 80px auto;
+}
+
+.common {
+  font-size: 20px;
+  margin: 0 auto;
+  max-width: 800px;
+  padding: 5px;
+}
+
+.title {
+  text-align: center;
+  font-size: 40px;
+  color: #111;
+}
